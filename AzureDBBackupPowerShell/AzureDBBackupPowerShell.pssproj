@@ -29,8 +29,6 @@
     <Content Include="enableScript.bat" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureAutomation.ps1" />
-    <Compile Include="AzureDBBackup.ps1" />
     <Compile Include="AzureDbBackupToStorage.ps1" />
     <Compile Include="ps-azure-sql-to-blob.ps1" />
   </ItemGroup>
