@@ -9,11 +9,17 @@ $ResourceGroupName = "RIDERSBOOK-RG"
 $ServerName = "ridersbook"
 $serverAdmin = "ALFA"
 $serverPassword = "ridersbook-512" 
+
 $StorageKey = "wjGiv5rUBEkbmHCFMx1u1Kwh+3gQIIKTda7gJg6nYm+T3LILz4p5gion3eTLoYeqCIEv/drzNIBt9mLnJxfC8Q=="
+$StorageAccountName = "quasarlightwe"
+$StorageContainerName = "backups"
 $StorageKeytype = "StorageAccessKey"
+$LocalDirectory = "C:\Temp\AzureStorage\backups\"
 
-$BaseStorageUri = "https://quasarlightwe.blob.core.windows.net/backups/"
+$BaseStorageUri = "https://quasarlightwe.blob.core.windows.net/" + $StorageContainerName + "/"
 
+
+#Start Script
 $Credential = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
 
 Login-AzureRmAccount -Credential $Credential 
@@ -51,4 +57,16 @@ while($status.status -ne "Succeeded")
 Write-Host "]"
 Write-Host ""
 Write-Host "Backup completed successfully"
+Write-Host ""
+
+
+$ctx = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageKey
+
+#$localFile = $LocalDirectory + $bacpacFilename 
+
+Get-AzureStorageBlobContent -Blob $bacpacFilename -Container $StorageContainerName -Destination $LocalDirectory -Context $ctx
+
+#Set-AzureStorageBlobContent -File $localFile -Container $StorageContainerName -Blob $BlobName -Context $ctx
+Write-Host "Backup downloaded to local directory"
+
 Start-Sleep -s 10
