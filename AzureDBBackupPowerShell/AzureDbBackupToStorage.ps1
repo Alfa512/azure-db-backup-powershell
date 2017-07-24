@@ -4,8 +4,6 @@ $Password = ConvertTo-SecureString $PasswordText -AsPlainText -Force
 
 $subscriptionId = "ecc6102b-ed54-4e30-b10b-d9d0a3690904"
 
-$tenantid = "4985340e-b97d-4efa-ab8c-f26088172d74"
-
 $DatabaseName = "Ridersbook-DB"
 $ResourceGroupName = "RIDERSBOOK-RG"
 $ServerName = "ridersbook"
@@ -18,7 +16,7 @@ $BaseStorageUri = "https://quasarlightwe.blob.core.windows.net/backups/"
 
 $Credential = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
 
-Login-AzureRmAccount -Credential $Credential -TenantId $tenantid
+Login-AzureRmAccount -Credential $Credential 
 Set-AzureRmContext -SubscriptionId $subscriptionId
 
 # Database to export
