@@ -46,6 +46,6 @@ while($status.status -ne "Succeeded")
 	$status = Get-AzureRmSqlDatabaseImportExportStatus -OperationStatusLink $exportRequest.OperationStatusLink
 	Write-Host -NoNewline "."
 }
-Write-Host ""
+Write-Host "]"
 Write-Host "Backup completed successfully"
 Start-Sleep -s 10
