@@ -1,34 +1,35 @@
 $UserName = "jack@ridersbook.onmicrosoft.com"
-$PasswordText = "xcxvf6grbdntn558+21s"
-$Password = ConvertTo-SecureString $PasswordText -AsPlainText -Force
+$Password = "xcxvf6grbdntn558+21s"
 
-$subscriptionId = "ecc6102b-ed54-4e30-b10b-d9d0a3690904"
+$SubscriptionId = "ecc6102b-ed54-4e30-b10b-d9d0a3690904"
 
-$DatabaseName = "Ridersbook-DB"
 $ResourceGroupName = "RIDERSBOOK-RG"
 $ServerName = "ridersbook"
-$serverAdmin = "ALFA"
-$serverPassword = "ridersbook-512" 
+$ServerAdmin = "ALFA"
+$ServerPassword = "ridersbook-512" 
+$DatabaseName = "Ridersbook-DB"
 
 $StorageKey = "wjGiv5rUBEkbmHCFMx1u1Kwh+3gQIIKTda7gJg6nYm+T3LILz4p5gion3eTLoYeqCIEv/drzNIBt9mLnJxfC8Q=="
 $StorageAccountName = "quasarlightwe"
 $StorageContainerName = "backups"
-$StorageKeytype = "StorageAccessKey"
 $LocalDirectory = "C:\Temp\AzureStorage\backups\"
 
-$BaseStorageUri = "https://quasarlightwe.blob.core.windows.net/" + $StorageContainerName + "/"
+$StorageUri = "https://quasarlightwe.blob.core.windows.net/"
 
 
+$StorageKeytype = "StorageAccessKey"
+$BaseStorageUri = $StorageUri +  $StorageContainerName + "/"
+$SecurePassword = ConvertTo-SecureString $Password -AsPlainText -Force
 #Start Script
-$Credential = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
+$Credential = New-Object System.Management.Automation.PSCredential ($UserName, $SecurePassword)
 
 Login-AzureRmAccount -Credential $Credential 
-Set-AzureRmContext -SubscriptionId $subscriptionId
+Set-AzureRmContext -SubscriptionId $SubscriptionId
 
 # Database to export
 
-$securePassword = ConvertTo-SecureString -String $serverPassword -AsPlainText -Force
-$creds = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $serverAdmin, $securePassword
+$SecurePassword = ConvertTo-SecureString -String $ServerPassword -AsPlainText -Force
+$creds = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $ServerAdmin, $SecurePassword
 
 # Generate a unique filename for the BACPAC
 $bacpacFilename = $DatabaseName + (Get-Date).ToString("yyyyMMddHHmm") + ".bacpac"
@@ -58,7 +59,6 @@ Write-Host "]"
 Write-Host ""
 Write-Host "Backup completed successfully"
 Write-Host ""
-
 
 $ctx = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageKey
 
